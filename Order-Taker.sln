@@ -5,6 +5,12 @@ VisualStudioVersion = 17.13.35507.96 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order-Taker.client.API", "Order-Taker.client.API\Order-Taker.client.API.csproj", "{0C5D78DF-E9D0-487B-B324-E3E5435173A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order-Taker.Core", "Order-Taker.Core\Order-Taker.Core.csproj", "{7305A8FF-5473-4145-A8D2-D947D31B309F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order-Taker.Repositoriy", "Order-Taker.Repositoriy\Order-Taker.Repositoriy.csproj", "{021F311E-0DAD-45BA-8422-16058024307A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order-Taker.Service", "Order-Taker.Service\Order-Taker.Service.csproj", "{262A251E-DCFB-42AF-899D-EA5B8833C256}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{0C5D78DF-E9D0-487B-B324-E3E5435173A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C5D78DF-E9D0-487B-B324-E3E5435173A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C5D78DF-E9D0-487B-B324-E3E5435173A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7305A8FF-5473-4145-A8D2-D947D31B309F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7305A8FF-5473-4145-A8D2-D947D31B309F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7305A8FF-5473-4145-A8D2-D947D31B309F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7305A8FF-5473-4145-A8D2-D947D31B309F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{021F311E-0DAD-45BA-8422-16058024307A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021F311E-0DAD-45BA-8422-16058024307A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021F311E-0DAD-45BA-8422-16058024307A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021F311E-0DAD-45BA-8422-16058024307A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{262A251E-DCFB-42AF-899D-EA5B8833C256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{262A251E-DCFB-42AF-899D-EA5B8833C256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{262A251E-DCFB-42AF-899D-EA5B8833C256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{262A251E-DCFB-42AF-899D-EA5B8833C256}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
