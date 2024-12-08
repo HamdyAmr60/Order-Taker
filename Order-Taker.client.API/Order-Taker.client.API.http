@@ -1,0 +1,6 @@
+@Order_Taker.client.API_HostAddress = http://localhost:5167
+
+GET {{Order_Taker.client.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
