@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Order_Taker.Core.Reposatories;
 using Order_Taker.Repositoriy.Data;
+using Order_Taker.Repositoriy.Reposatories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +15,26 @@ builder.Services.AddDbContext<OrderTakerDBContext>(Options =>
 {
     Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-var app = builder.Build();
 
+builder.Services.AddScoped(typeof(IOrderTakerRepo<>) , typeof(OrderTakerRepo<>));
+var app = builder.Build();
+using var Scope = app.Services.CreateScope();
+var Services = Scope.ServiceProvider;
+var _dbContext = Services.GetRequiredService<OrderTakerDBContext>();
+
+var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
+
+try
+{
+
+    await _dbContext.Database.MigrateAsync();
+     await OrderTakerSeed.DataSeed(_dbContext);
+}
+catch (Exception ex)
+{
+    var Logger = LoggerFactory.CreateLogger<Program>();
+    Logger.LogError(ex, "an error occured while migration");
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -28,21 +48,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using var Scope = app.Services.CreateScope();
-var Services = Scope.ServiceProvider;
-var _dbContext = Services.GetRequiredService<OrderTakerDBContext>();
 
-var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
-
-try
-{
-
-    await _dbContext.Database.MigrateAsync();
-}catch(Exception ex)
-{
-   var Logger =  LoggerFactory.CreateLogger<Program>();
-    Logger.LogError(ex, "an error occured while migration");
-}
 
 
 app.Run();
