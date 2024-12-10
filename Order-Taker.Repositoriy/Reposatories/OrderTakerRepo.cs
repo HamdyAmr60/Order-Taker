@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Order_Taker.Core.Models;
 using Order_Taker.Core.Reposatories;
+using Order_Taker.Core.Specifications;
 using Order_Taker.Repositoriy.Data;
+using Order_Taker.Repositoriy.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +30,14 @@ namespace Order_Taker.Repositoriy.Reposatories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(ISpecification<T> specification)
         {
-           return await _dBContext.Set<T>().ToListAsync();
+            return await SpecificationEvaluator<T>.BuildQuery(_dBContext.Set<T>(), specification).ToListAsync();
         }
 
-        public async Task<T> GetAsync(int id)
+        public async Task<T> GetAsync(ISpecification<T> specification)
         {
-            return await _dBContext.Set<T>().FindAsync(id);
+            return await SpecificationEvaluator<T>.BuildQuery(_dBContext.Set<T>(), specification).FirstOrDefaultAsync();
         }
 
         public Task<int> UpdateAsync(T item)

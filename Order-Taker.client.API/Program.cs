@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Order_Taker.client.API.Helpers;
 using Order_Taker.Core.Reposatories;
 using Order_Taker.Repositoriy.Data;
 using Order_Taker.Repositoriy.Reposatories;
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<OrderTakerDBContext>(Options =>
 });
 
 builder.Services.AddScoped(typeof(IOrderTakerRepo<>) , typeof(OrderTakerRepo<>));
+builder.Services.AddAutoMapper(M => M.AddProfile(typeof(Profiles)));
+builder.Services.AddScoped<ProductPhotoResolver>();
 var app = builder.Build();
 using var Scope = app.Services.CreateScope();
 var Services = Scope.ServiceProvider;
@@ -45,7 +48,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseStaticFiles();
 app.MapControllers();
 
 
