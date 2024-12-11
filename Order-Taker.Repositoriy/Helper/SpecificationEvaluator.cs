@@ -17,8 +17,14 @@ namespace Order_Taker.Repositoriy.Helper
             var Query = inputQuery;
 
             if (specs.Criteria is not null)
-                return Query = inputQuery.Where(specs.Criteria);
+                 Query = inputQuery.Where(specs.Criteria);
+            if(specs.OrderBy is not null)
+              Query =    Query.OrderBy(specs.OrderBy);
+            if(specs.OrderByDesc is not null)
+             Query =    Query.OrderByDescending(specs.OrderByDesc);
 
+            if(specs.ApplyPagination)
+                Query = Query.Skip(specs.Skip).Take(specs.Take);
             Query = specs.Includes.Aggregate(Query, (QurrentQuery, IncludeExp) => QurrentQuery.Include(IncludeExp));
             return Query;
         }

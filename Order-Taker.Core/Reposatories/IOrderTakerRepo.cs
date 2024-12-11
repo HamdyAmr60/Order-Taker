@@ -10,11 +10,15 @@ namespace Order_Taker.Core.Reposatories
 {
     public interface IOrderTakerRepo<T> where T : BaseModel
     {
-        Task<IEnumerable<T>> GetAllAsync(ISpecification<T> specification);
+        Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T> specification);
         Task<T> GetAsync(ISpecification<T> specification);
+        Task<IReadOnlyList<T>> GetAll();
+        Task<T> Get(int id);
 
         Task<int> AddAsync(T item);
         Task<int> UpdateAsync(T item);
         Task<int> DeleteAsync(T item);
+
+        Task<int> GetCountWithSpecs(ISpecification<T> specification);
     }
 }
