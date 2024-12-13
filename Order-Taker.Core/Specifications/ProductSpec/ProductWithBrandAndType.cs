@@ -12,6 +12,8 @@ namespace Order_Taker.Core.Specifications.ProductSpec
     {
         public ProductWithBrandAndType(ProductSpecsParams param)
             :base(P=>
+            (string.IsNullOrEmpty(param.Search)|| P.Name.ToLower().Contains(param.Search))
+            &&
             (!param.BrandId.HasValue || P.ProductBrandId == param.BrandId)
             &&
             (!param.TypeId.HasValue || P.ProductTypeId == param.TypeId)

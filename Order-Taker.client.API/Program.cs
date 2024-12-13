@@ -3,6 +3,7 @@ using Order_Taker.client.API.Helpers;
 using Order_Taker.Core.Reposatories;
 using Order_Taker.Repositoriy.Data;
 using Order_Taker.Repositoriy.Reposatories;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,14 @@ builder.Services.AddDbContext<OrderTakerDBContext>(Options =>
 {
     Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
+builder.Services.AddSingleton<IConnectionMultiplexer>(Options =>
+{
+    var connection = builder.Configuration.GetConnectionString("redis");
+    return ConnectionMultiplexer.Connect(connection);
+});
 builder.Services.AddScoped(typeof(IOrderTakerRepo<>) , typeof(OrderTakerRepo<>));
+//builder.Services.AddScoped(typeof(IBasketRepo), typeof(BasketRepo));
+builder.Services.AddScoped<IBasketRepo,BasketRepo>();
 builder.Services.AddAutoMapper(M => M.AddProfile(typeof(Profiles)));
 builder.Services.AddScoped<ProductPhotoResolver>();
 var app = builder.Build();
