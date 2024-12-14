@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Order_Taker.client.API.Helpers;
 using Order_Taker.Core.Reposatories;
 using Order_Taker.Repositoriy.Data;
+using Order_Taker.Repositoriy.Data.Identity;
 using Order_Taker.Repositoriy.Reposatories;
 using StackExchange.Redis;
 
@@ -17,6 +19,10 @@ builder.Services.AddDbContext<OrderTakerDBContext>(Options =>
 {
     Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddDbContext<AppIdentityDbContext>(Options => 
+{
+    Options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnetion"));
+});
 builder.Services.AddSingleton<IConnectionMultiplexer>(Options =>
 {
     var connection = builder.Configuration.GetConnectionString("redis");
@@ -30,7 +36,8 @@ builder.Services.AddScoped<ProductPhotoResolver>();
 var app = builder.Build();
 using var Scope = app.Services.CreateScope();
 var Services = Scope.ServiceProvider;
-var _dbContext = Services.GetRequiredService<OrderTakerDBContext>();
+var _dbContext = Services.GetRequiredService<OrderTakerDBContext>() ;
+var _Identity = Services.GetRequiredService<AppIdentityDbContext>();
 
 var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
 
@@ -38,6 +45,7 @@ try
 {
 
     await _dbContext.Database.MigrateAsync();
+    await _Identity.Database.MigrateAsync();
      await OrderTakerSeed.DataSeed(_dbContext);
 }
 catch (Exception ex)
