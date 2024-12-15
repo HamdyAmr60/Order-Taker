@@ -23,12 +23,12 @@ namespace Order_Taker.Core.Specifications.ProductSpec
 
         public int PageIndex { get; set; } = 1;
 
-        private string search;
+        private string? search;
 
-        public string Search
+        public string? Search
         {
             get { return search; }
-            set { search = value.ToLower(); }
+            set { search = value?.ToLower(); }
         }
 
 
