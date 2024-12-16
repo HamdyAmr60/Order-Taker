@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +24,7 @@ namespace Order_Taker.client.API.Controllers
             _orderTaker = orderTaker;
             _mapper = mapper;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Pagination<ProductDTO>>>> GetAllProducts([FromQuery]ProductSpecsParams param)
         {

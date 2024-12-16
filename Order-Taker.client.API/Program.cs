@@ -10,7 +10,7 @@ using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Databases(builder);
-builder.Services.ApplicationService();
+builder.Services.ApplicationService(builder);
 
 var app = builder.Build();
 using var Scope = app.Services.CreateScope();
@@ -26,7 +26,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.Run();

@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Order-Taker.Core\Order-Taker.Core.csproj" />
     <ProjectReference Include="..\Order-Taker.Repositoriy\Order-Taker.Repositoriy.csproj" />
+    <ProjectReference Include="..\Order-Taker.Service\Order-Taker.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
