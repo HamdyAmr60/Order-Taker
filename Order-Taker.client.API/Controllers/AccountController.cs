@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Order_Taker.client.API.DTOs;
+using Order_Taker.client.API.Extentions;
 using Order_Taker.Core.Models.Identity;
 using Order_Taker.Core.Services;
 using Order_Taker.Service;
+using System.Security.Claims;
 
 namespace Order_Taker.client.API.Controllers
 {
@@ -14,16 +18,22 @@ namespace Order_Taker.client.API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenServices _tokenService;
-            
-        public AccountController(UserManager<AppUser> userManager , SignInManager<AppUser> signInManager , ITokenServices tokenService )
+        private readonly IMapper _mapper;
+
+        public AccountController(UserManager<AppUser> userManager , SignInManager<AppUser> signInManager , ITokenServices tokenService , IMapper mapper )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
         [HttpPost("Register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO dTO)
         {
+            if (IfEmailExists(dTO.Email).Result.Value)
+            {
+                return BadRequest("Email already in use");
+            }
             var User = new AppUser() 
             { 
                 DisplayName = dTO.DisplayName,
@@ -56,6 +66,48 @@ namespace Order_Taker.client.API.Controllers
                 Token = await _tokenService.CreateToken(User , _userManager),
             };
             return Ok(Returned);
+        }
+        [Authorize]
+        [HttpGet("CurrentUser")]
+        public async Task<ActionResult<UserDTO>> GetCurrentUser() 
+        {
+            var Email = User.FindFirstValue(ClaimTypes.Email); 
+            var user = await _userManager.FindByEmailAsync(Email);
+
+            var returned = new UserDTO() 
+            {
+                DisplayName = user.DisplayName,
+                Email = user.Email,
+                Token = await _tokenService.CreateToken(user , _userManager),
+            };
+            return Ok(returned);
+        }
+        [Authorize]
+        [HttpGet("GetCurrentAddress")]
+        public async Task<ActionResult<AddressDTO>> GetCurrentAddress()
+        {
+            var user =await _userManager.GetAppUser(User);
+            var mappedAddress = _mapper.Map<Address,AddressDTO>(user.Address);
+            return Ok(mappedAddress);
+        }
+        [Authorize]
+        [HttpPut("Address")]
+        public async Task<ActionResult<AddressDTO>> updateAddress(AddressDTO address)
+        {
+            var user = await _userManager.GetAppUser(User);
+            var mappedAddress = _mapper.Map<AddressDTO,Address>(address);
+            mappedAddress.Id = user.Address.Id;
+            user.Address = mappedAddress;
+           var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded) return BadRequest();
+           return Ok(address);
+        }
+        [HttpGet("IfEmailExists")]
+        public async Task<ActionResult<bool>> IfEmailExists(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) return false;
+            else return true;
         }
     }
 }
