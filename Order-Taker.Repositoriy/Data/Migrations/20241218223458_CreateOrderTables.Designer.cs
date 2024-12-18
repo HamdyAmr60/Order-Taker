@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Order_Taker.Repositoriy.Data;
 
@@ -11,9 +12,11 @@ using Order_Taker.Repositoriy.Data;
 namespace Order_Taker.Repositoriy.Data.Migrations
 {
     [DbContext(typeof(OrderTakerDBContext))]
-    partial class OrderTakerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241218223458_CreateOrderTables")]
+    partial class CreateOrderTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

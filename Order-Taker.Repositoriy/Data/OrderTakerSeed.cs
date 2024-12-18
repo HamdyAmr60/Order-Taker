@@ -1,4 +1,5 @@
 ﻿using Order_Taker.Core.Models;
+using Order_Taker.Core.Models.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,20 @@ namespace Order_Taker.Repositoriy.Data
                     foreach (var Product in Products)
                     {
                         dBContext.Set<Product>().Add(Product);
+                    }
+                    await dBContext.SaveChangesAsync();
+                }
+            }
+            if (!dBContext.Set<DeliveryMethod>().Any())
+            {
+                var DeliveryData = File.ReadAllText("../../Order-Taker/Order-Taker.Repositoriy/Data/DataSeed/delivery.json");
+                var Methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(DeliveryData);
+
+                if (Methods?.Count > 0)
+                {
+                    foreach (var Method in Methods)
+                    {
+                        dBContext.Set<DeliveryMethod>().Add(Method);
                     }
                     await dBContext.SaveChangesAsync();
                 }
