@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Order_Taker.client.API.Helpers;
+using Order_Taker.Core;
 using Order_Taker.Core.Models.Identity;
 using Order_Taker.Core.Reposatories;
 using Order_Taker.Core.Services;
+using Order_Taker.Repositoriy;
 using Order_Taker.Repositoriy.Data.Identity;
 using Order_Taker.Repositoriy.Reposatories;
 using Order_Taker.Service;
@@ -20,10 +22,12 @@ namespace Order_Taker.client.API.Extentions
             Services.AddScoped(typeof(IOrderTakerRepo<>), typeof(OrderTakerRepo<>));
             //Services.AddScoped(typeof(IBasketRepo), typeof(BasketRepo));
             Services.AddScoped<IBasketRepo, BasketRepo>();
+            Services.AddScoped<IUnitOfWork , UnitOfWork>();
             Services.AddAutoMapper(M => M.AddProfile(typeof(Profiles)));
             Services.AddScoped<ProductPhotoResolver>();
             Services.AddControllers();
             Services.AddScoped<ITokenServices, TokenService>();
+            Services.AddScoped<IOrderService, OrderService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             Services.AddEndpointsApiExplorer();
             Services.AddSwaggerGen();

@@ -20,14 +20,14 @@ namespace Order_Taker.Repositoriy.Reposatories
         {
             _dBContext = dBContext;
         }
-        public Task<int> AddAsync(T item)
+        public async Task AddAsync(T item)
         {
-            throw new NotImplementedException();
+          await  _dBContext.Set<T>().AddAsync(item);
         }
 
-        public Task<int> DeleteAsync(T item)
+        public  void Delete(T item)
         {
-            throw new NotImplementedException();
+             _dBContext.Set<T>().Remove(item);
         }
 
         public async Task<T> Get(int id)
@@ -55,9 +55,9 @@ namespace Order_Taker.Repositoriy.Reposatories
            return await SpecificationEvaluator<T>.BuildQuery(_dBContext.Set<T>() , specification).CountAsync();
         }
 
-        public Task<int> UpdateAsync(T item)
+        public void Update(T item)
         {
-            throw new NotImplementedException();
+            _dBContext.Set<T>().Update(item);
         }
     }
 }

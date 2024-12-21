@@ -2,6 +2,7 @@
 using Order_Taker.client.API.DTOs;
 using Order_Taker.Core.Models;
 using Order_Taker.Core.Models.Identity;
+using Order_Taker.Core.Models.Order;
 
 namespace Order_Taker.client.API.Helpers
 {
@@ -14,8 +15,10 @@ namespace Order_Taker.client.API.Helpers
             .ForMember(D => D.TypeName, Options => Options.MapFrom(S => S.ProductType.Name))
             .ForMember(D => D.TypeId, Options => Options.MapFrom(S => S.ProductTypeId))
             .ForMember(D=>D.PictureUrl , Options=>Options.MapFrom<ProductPhotoResolver>());
-            CreateMap<Address, AddressDTO>().ReverseMap();
+            CreateMap<Core.Models.Identity.Address, AddressDTO>().ReverseMap();
             CreateMap<CustomerBasketDTO, CustomerBasket>();
+            CreateMap<BasketItemDTO, BasketItem>();
+            CreateMap<AddressDTO, Core.Models.Order.Address>();
         }
     }
 }

@@ -15,9 +15,9 @@ namespace Order_Taker.Core.Reposatories
         Task<IReadOnlyList<T>> GetAll();
         Task<T> Get(int id);
 
-        Task<int> AddAsync(T item);
-        Task<int> UpdateAsync(T item);
-        Task<int> DeleteAsync(T item);
+        Task AddAsync(T item);
+        void  Update(T item);
+        void  Delete(T item);
 
         Task<int> GetCountWithSpecs(ISpecification<T> specification);
     }
