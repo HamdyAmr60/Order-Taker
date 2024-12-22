@@ -25,6 +25,7 @@ namespace Order_Taker.client.API.Extentions
             Services.AddScoped<IUnitOfWork , UnitOfWork>();
             Services.AddAutoMapper(M => M.AddProfile(typeof(Profiles)));
             Services.AddScoped<ProductPhotoResolver>();
+            Services.AddScoped<OrderPhotoResolver>();
             Services.AddControllers();
             Services.AddScoped<ITokenServices, TokenService>();
             Services.AddScoped<IOrderService, OrderService>();

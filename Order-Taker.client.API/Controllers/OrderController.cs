@@ -32,21 +32,23 @@ namespace Order_Taker.client.API.Controllers
         }
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUser()
+        public async Task<ActionResult<IReadOnlyList<OrderReturn>>> GetOrdersForUser()
         {
             var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
           var order = await  _orderService.GetOrders(BuyerEmail);
-            if (order == null) return BadRequest();
-            return Ok(order);
+            if (order == null) return NotFound();
+          var mapped =   _mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderReturn>>(order);
+            return Ok(mapped);
         }
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<Order>> GetOrdersForUser(int id)
+        public async Task<ActionResult<OrderReturn>> GetOrdersForUser(int id)
         {
             var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
             var order = await _orderService.GetOrder(id, BuyerEmail);
-            if (order == null) return BadRequest();
-            return Ok(order);
+            if (order == null) return NotFound();
+            var mapped = _mapper.Map<Order , OrderReturn>(order);
+            return Ok(mapped);
         }
 
     }

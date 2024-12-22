@@ -19,6 +19,12 @@ namespace Order_Taker.client.API.Helpers
             CreateMap<CustomerBasketDTO, CustomerBasket>();
             CreateMap<BasketItemDTO, BasketItem>();
             CreateMap<AddressDTO, Core.Models.Order.Address>();
+            CreateMap<Order, OrderReturn>().ForMember(d => d.DeliveryMethodCost, O => O.MapFrom(S => S.DeliveryMethod.Cost))
+                .ForMember(d => d.DeliveryMethod, O => O.MapFrom(S => S.DeliveryMethod.ShortName))
+                .ForMember(d => d.DeliveryMethodTime, O => O.MapFrom(S => S.DeliveryMethod.DeliveryTime));
+            CreateMap<OrderItem, OrderItemDTO>().ForMember(OI=>OI.ProductName , O=>O.MapFrom(S=>S.Product.ProductName))
+              .ForMember(OI => OI.ProductId, O => O.MapFrom(S => S.Product.ProductId))
+              .ForMember(OI =>OI.ProductPictureUrl , o=>o.MapFrom<OrderPhotoResolver>());
         }
     }
 }
