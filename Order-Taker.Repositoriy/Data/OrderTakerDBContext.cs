@@ -29,5 +29,6 @@ namespace Order_Taker.Repositoriy.Data
         public DbSet<DeliveryMethod> deliveryMethods { get; set; }
         public DbSet<Order> orders { get; set; }
         public DbSet<OrderItem> orderItems { get; set; }
+        
     }
 }
