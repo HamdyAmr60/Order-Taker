@@ -1,0 +1,16 @@
+﻿@model RoleFromViewModel
+
+<form class="mt-4 px-3" enctype="multipart/form-data" method="post" asp-action="Create">
+    <div class="input-group">
+        <input class="form-control"
+               type="text"
+               placeholder="ADD ROLE"
+               aria-label=""
+               asp-for="Name"
+               aria-describedby="btnNavbarSearch" />
+        <button class="btn btn-primary" type="submit">
+            ADD Role
+        </button>
+    </div>
+    <span asp-validation-for="Name" class="text-danger"></span>
+</form>

@@ -1,0 +1,21 @@
+﻿@model RoleFromViewModel
+@{
+    ViewData["Title"] = "Edit Role";
+}
+
+<h1>Edit Role</h1>
+<hr />
+<form class="mt-4 px-3" enctype="multipart/form-data" method="post" asp-action="Edit">
+    <div class="input-group">
+        <input class="form-control"
+               type="text"
+               placeholder="ADD ROLE"
+               aria-label=""
+               asp-for="Name"
+               aria-describedby="btnNavbarSearch" />
+        <button class="btn btn-primary" type="submit" asp-route-Id ="@Model.Id"> 
+            Edit
+        </button>
+    </div>
+    <span asp-validation-for="Name" class="text-danger"></span>
+</form>
