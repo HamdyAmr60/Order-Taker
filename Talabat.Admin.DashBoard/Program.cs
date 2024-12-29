@@ -4,12 +4,14 @@ using Order_Taker.Core.Models.Identity;
 using Order_Taker.Core;
 using Order_Taker.Repositoriy.Data.Identity;
 using Order_Taker.Repositoriy;
+using Talabat.Admin.DashBoard.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Databases(builder);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddAutoMapper(typeof(MapedProfile));
 builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>();
 var app = builder.Build();
