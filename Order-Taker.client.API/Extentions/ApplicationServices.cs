@@ -51,6 +51,17 @@ namespace Order_Taker.client.API.Extentions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
                     };
                 });
+
+            Services.AddCors(options =>
+            {
+                options.AddPolicy("allow", policy =>
+                {
+                    policy.AllowAnyOrigin() // Allow requests from any origin
+             .AllowAnyMethod() // Allow any HTTP method (GET, POST, PUT, etc.)
+             .AllowAnyHeader(); // Allow any headers
+
+                });
+            });
             return Services;
         }
     }

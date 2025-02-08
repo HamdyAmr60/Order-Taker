@@ -29,10 +29,10 @@ namespace Order_Taker.client.API.Controllers
         }
         [HttpPost("Register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO dTO)
-        {
+            {
             if (IfEmailExists(dTO.Email).Result.Value)
             {
-                return BadRequest("Email already in use");
+                return BadRequest(new { msg = "email already in use" });
             }
             var User = new AppUser() 
             { 
@@ -43,7 +43,7 @@ namespace Order_Taker.client.API.Controllers
             };
           var result =   await _userManager.CreateAsync(User,dTO.Password);
             if (!result.Succeeded) return BadRequest();
-            var Returned = new UserDTO()
+            var Returned = new UserDTO()    
             {
                 DisplayName = User.DisplayName,
                 Email = User.Email,
